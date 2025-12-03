@@ -1,5 +1,3 @@
-# DenseNet201 Bangladeshi Rice Classification: Augmentation Impact Analysis
-
 Paper Link: https://doi.org/10.1016/j.dib.2025.112058
 
 ## Overview
