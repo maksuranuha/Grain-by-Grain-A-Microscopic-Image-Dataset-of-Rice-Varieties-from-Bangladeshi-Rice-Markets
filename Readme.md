@@ -1,8 +1,10 @@
 # DenseNet201 Bangladeshi Rice Classification: Augmentation Impact Analysis
 
+Paper Link: https://doi.org/10.1016/j.dib.2025.112058
+
 ## Overview
 
-This repository presents a comparative study of DenseNet201 model performance on the **Grain by Grain** microscopic rice dataset from Bangladeshi markets. The study evaluates the impact of data augmentation on classification accuracy across 10 distinct rice varieties.
+This repository presents a comparative study of DenseNet201 model performance on the *Grain by Grain: A Microscopic Image Dataset of Rice Varieties from Bangladeshi Rice Markets** from Bangladeshi markets. The study evaluates the impact of data augmentation on classification accuracy across 10 distinct rice varieties.
 
 ## Dataset
 
@@ -122,6 +124,5 @@ Four augmentation techniques were applied:
 
 ```
 Grain by Grain: A Microscopic Image Dataset of Rice Varieties from Bangladeshi Rice Markets
-Dataset ID: 10.17632/sfp9s96prh.1
 Available at: https://data.mendeley.com/datasets/sfp9s96prh/1
 ```
