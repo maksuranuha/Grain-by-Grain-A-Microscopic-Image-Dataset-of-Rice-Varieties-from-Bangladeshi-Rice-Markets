@@ -1,126 +1,109 @@
-Paper Link: https://doi.org/10.1016/j.dib.2025.112058
+# Rice Microscopy Bangladesh
 
-## Overview
+> A reproducible DenseNet201 benchmark for classifying ten rice varieties from microscopic images collected in Bangladeshi markets.
 
-This repository presents a comparative study of DenseNet201 model performance on the *Grain by Grain: A Microscopic Image Dataset of Rice Varieties from Bangladeshi Rice Markets** from Bangladeshi markets. The study evaluates the impact of data augmentation on classification accuracy across 10 distinct rice varieties.
+**Associated publication:** *Grain by Grain: A Microscopic Image Dataset of Rice Varieties from Bangladeshi Rice Markets*<br>
+**Journal:** *Data in Brief*, Volume 63<br>
+**Published:** December 2025<br>
+**DOI:** [10.1016/j.dib.2025.112058](https://doi.org/10.1016/j.dib.2025.112058)<br>
+**Dataset:** [Mendeley Data](https://data.mendeley.com/datasets/sfp9s96prh/1)
+
+## Provenance and collaboration
+
+This repository is a provenance-preserving fork of the [canonical research-code repository](https://github.com/maksuranuha/Grain-by-Grain-A-Microscopic-Image-Dataset-of-Rice-Varieties-from-Bangladeshi-Rice-Markets) maintained by **Maksura Binte Rabbani Nuha**. The fork retains the original Git history and is presented by co-author **Md Tahsin** as part of a shared research portfolio.
+
+## Research question
+
+How much does image augmentation affect DenseNet201's ability to distinguish visually similar rice varieties under a controlled microscopic-imaging protocol?
+
+The experiments compare the same transfer-learning backbone on the original dataset and an augmented version, keeping the benchmark easy to inspect and extend.
+
+## Experimental pipeline
+
+```mermaid
+flowchart LR
+    A[Microscopic rice images] --> B[Quality checks and class review]
+    B --> C[Original dataset: 2,010 images]
+    B --> D[Augmentation pipeline]
+    D --> E[Augmented dataset: 8,010 images]
+    C --> F[DenseNet201]
+    E --> G[DenseNet201]
+    F --> H[Evaluation]
+    G --> H
+    H --> I[Accuracy, loss and class-wise metrics]
+```
 
 ## Dataset
 
-The **Grain by Grain** dataset contains:
-- **2,010 original high-resolution microscopic images** (640×480 pixels, JPG format)
-- **10 rice varieties**: Aush, Beroi, BR-28, BR-29, Ghee Bhog, Katari Nazir, Katari Siddho, Swarna, Miniket, and Chinigura
-- **200+ images per variety** from local Dhaka markets
-- After augmentation: **8,010 total images**
+- **2,010** original high-resolution images at 640 × 480 pixels.
+- **10 rice varieties:** Aush, Beroi, BR-28, BR-29, Ghee Bhog, Katari Nazir, Katari Siddho, Swarna, Miniket, and Chinigura.
+- More than 200 original samples per variety, collected from markets in Dhaka, Bangladesh.
+- **8,010** images after the reported augmentation procedure.
 
-## Motivation
+The dataset supports research into rice-variety identification, authenticity assessment, and computer-vision methods for food-quality workflows. Microscopic appearance alone should not be interpreted as a direct measurement of nutritional composition.
 
-Ensuring food security and fiscal stability is crucial among South Asian countries, such asChina, India, and Bangladesh, that live on rice as a regular dietary staple [1,11]. Rice is a richsource of starch, protein, amylose, zinc, iron, carbohydrates, as well as vitamins, phenolic acids,and antioxidants that aid in fighting diseases like metabolic system imbalances, obesity, dia-betes, cancer, and cardiovascular health issues. Although polishing rice has been a commonmarket practice to boost profit, it is often at the cost of undermining the main nutritional factor of rice consumption. Furthermore, rice milling takes away a substantial amount, around 8–10 %grain portion. About 80 % percent minerals (Fe, Zn, Mg, P) and vitamins drop with the removalof the outer husk. Another article reveals that steaming rice affects milled rice more sig-nificantly than plain rice. During steaming, the Zinc from the center of the grain goes to theoutermost layer. Since polishing rice removes the outer layer, the Zinc that wants to move disappears along with the discarded bran. Therefore, the more milling, the more minerals are lost[3].Addressing these concerns, our study presents an expertly handpicked and curated dataset of2010 rice kernels comprising 10 distinct rice categories, locally named as: (A) Aush, (B) Beroi, (C)BR-28, (D) BR-29, (E) Ghee Bhog, (F) Katari Nazir, (G) Katari Siddho, (H) Swarna, (I)Miniket, and(J) Chinigura. Most of these are commonly preferred for their sweet aroma, glossy texture, andthinness, ideal for daily use, traditional dishes, and festivities. This proposed dataset will act asan asset in balancing the rice refinement tactics. It can further facilitate a real-time importationmonitoring system to increase fiscal stability, public health assurance with quality, and mitigateunethical activities. 
+## Model configuration
 
-## Overview
+- **Backbone:** DenseNet201 with transfer learning
+- **Input size:** 70 × 70 pixels
+- **Head:** global average pooling and softmax classifier
+- **Optimizer:** Adam
+- **Learning rate:** 0.001
+- **Epochs:** 50
+- **Batch size:** 60
+- **Split:** 80% training, 10% validation, 10% testing
 
-This repository presents a comparative study of DenseNet201 model performance on the **Grain by Grain** microscopic rice dataset from Bangladeshi markets. The study evaluates the impact of data augmentation on classification accuracy across 10 distinct rice varieties.
+## Reported benchmark
 
-## Dataset
+| Dataset version | Images | Accuracy | Loss |
+|---|---:|---:|---:|
+| Original | 2,010 | 93% | 0.248 |
+| Augmented | 8,010 | 94% | 0.230 |
 
-The **Grain by Grain** dataset contains:
-- **2,010 original high-resolution microscopic images** (640×480 pixels, JPG format)
-- **10 rice varieties**: Aush, Beroi, BR-28, BR-29, Ghee Bhog, Katari Nazir, Katari Siddho, Swarna, Miniket, and Chinigura
-- **200+ images per variety** from local Dhaka markets
-- After augmentation: **8,010 total images**
+The augmentation experiment produced a one-percentage-point increase in overall accuracy and a lower reported loss. Class-level metrics should be reviewed alongside aggregate accuracy because visually similar varieties do not benefit equally.
 
-## Motivation
+## Repository guide
 
-Rice polishing and milling practices remove approximately 80% of essential minerals (Fe, Zn, Mg, P) and vitamins. This dataset exposes structural differences in rice grains before and after milling, serving as a resource for quality assessment and food security research.
+| Notebook | Purpose |
+|---|---|
+| `DenseNet201_With_Original dataset.ipynb` | Train and evaluate the baseline on original images |
+| `DenseNet201_with_Augmented_Dataset.ipynb` | Train and evaluate on augmented images |
+| `Augmentation.ipynb` | Generate augmented samples |
+| `Black_Background.ipynb` | Prepare controlled image backgrounds |
+| `Chart_Generation.ipynb` | Produce comparison and reporting figures |
 
-## Dataset Augmentation
+## Reproducing the experiments
 
-Four augmentation techniques were applied:
-- **Rotation**: 30° fixed degrees
-- **Shearing**: ~20% intensity
-- **Horizontal Flip**: Randomized
-- **Vertical Flip**: Randomized
-- **Randomization factor**: 4 (total 8,010 augmented images)
+1. Download the dataset from the linked Mendeley Data record.
+2. Preserve one directory per rice variety.
+3. Open the notebooks in Google Colab or a Python environment with TensorFlow/Keras, scikit-learn, pandas, NumPy, Pillow, OpenCV, Matplotlib, and Seaborn.
+4. Update dataset paths without committing private Google Drive locations.
+5. Run the original-data experiment before augmentation.
+6. Record the random seed, split, library versions, and hardware used for any new result.
 
-## Model Architecture
+## Responsible use and limitations
 
-**DenseNet201** with the following configuration:
-- Input size: 70×70 pixels
-- Global Average Pooling layer
-- Dense layer with softmax activation
-- Loss function: SparseCategoricalCrossentropy
-- Optimizer: Adam (learning rate: 0.001)
-- Epochs: 50
-- Batch size: 60
-- Train-Test-Validation split: 80:10:10
-
-## Results
-
-### Original Dataset (Without Augmentation)
-| Metric | Value |
-|--------|-------|
-| Accuracy | 93% |
-| Loss | 0.248 |
-| Training Time | 5 min 22 s |
-| Total Images | 2,010 |
-
-### Augmented Dataset (With Augmentation)
-| Metric | Value |
-|--------|-------|
-| Accuracy | 94% |
-| Loss | 0.230 |
-| Total Images | 8,010 |
-
-### Table : Label-wise Precision, Recall, F1-score, and Support - DenseNet201 on Original Dataset
-
-| Sl. | Name | Precision | Recall | F1-score | Support |
-|-----|------|-----------|--------|----------|---------|
-| 1 | Aush | 0.96 | 0.96 | 0.96 | 25 |
-| 2 | Beroi | 0.88 | 0.79 | 0.83 | 19 |
-| 3 | Bri-28 | 0.95 | 0.91 | 0.93 | 19 |
-| 4 | Bri-29 | 0.95 | 0.91 | 0.93 | 23 |
-| 5 | Chinigura | 0.96 | 1.00 | 0.98 | 24 |
-| 6 | Miniket | 0.97 | 0.94 | 0.95 | 33 |
-| 7 | Katari Najir | 0.80 | 0.84 | 0.82 | 19 |
-| 8 | Ghee Bhog | 0.87 | 0.83 | 0.85 | 24 |
-| 9 | Katari Siddho | 0.97 | 0.94 | 0.95 | 30 |
-| 10 | Swarna | 0.88 | 0.96 | 0.92 | 24 |
-| **Accuracy** | | | | **0.93** | **240** |
-
-### Table : Label-wise Precision, Recall, F1-score, and Support - DenseNet201 on Augmented Dataset
-
-| Sl. | Name | Precision | Recall | F1-score | Support |
-|-----|------|-----------|--------|----------|---------|
-| 1 | Aush | 1.00 | 1.00 | 1.00 | 78 |
-| 2 | Beroi | 1.00 | 1.00 | 1.00 | 91 |
-| 3 | Bri-28 | 0.85 | 0.85 | 0.85 | 81 |
-| 4 | Bri-29 | 0.92 | 0.91 | 0.91 | 87 |
-| 5 | Chinigura | 0.99 | 0.99 | 0.99 | 78 |
-| 6 | Miniket | 0.99 | 0.96 | 0.97 | 89 |
-| 7 | Katari Najir | 0.89 | 0.87 | 0.88 | 86 |
-| 8 | Ghee Bhog | 0.91 | 0.91 | 0.91 | 80 |
-| 9 | Katari Siddho | 0.90 | 0.93 | 0.91 | 81 |
-| 10 | Swarna | 0.91 | 0.96 | 0.93 | 89 |
-| **Accuracy** | | | | **0.94** | **840** |
-
-## Key Findings
-
-- Data augmentation improved overall accuracy from 93% to 94%
-- Loss decreased from 0.248 to 0.230, indicating better model convergence
-- Augmentation achieved more balanced class-wise performance
-- Classes like Aush and Beroi achieved perfect 1.00 precision and recall
-- Model generalization improved with expanded training data
-
-
-## Applications
-
-- **Quality Control**: Automated rice grain classification and quality assessment
-- **Market Monitoring**: Real-time importation monitoring and authenticity verification
-- **Food Security**: Nutritional impact assessment from milling processes
-- **Policy Making**: Data-driven recommendations for balanced market appeal and nutrition preservation
+- The dataset represents selected Bangladeshi market samples and should not be assumed to cover all regional or seasonal variation.
+- Augmented images are derived samples, not additional independently collected observations.
+- Performance can change with lighting, camera hardware, preprocessing, and train/test splitting.
+- Any commercial quality-control deployment requires external validation on unseen acquisition conditions.
 
 ## Citation
 
+```bibtex
+@article{tahsin2025grain,
+  title   = {Grain by grain: A microscopic image dataset of rice varieties from Bangladeshi rice markets},
+  journal = {Data in Brief},
+  volume  = {63},
+  pages   = {112058},
+  year    = {2025},
+  doi     = {10.1016/j.dib.2025.112058}
+}
 ```
-Grain by Grain: A Microscopic Image Dataset of Rice Varieties from Bangladeshi Rice Markets
-Available at: https://data.mendeley.com/datasets/sfp9s96prh/1
-```
+
+## Research contacts
+
+- [Md Tahsin](https://github.com/T-biohazard) — co-author and portfolio maintainer
+- [Maksura Binte Rabbani Nuha](https://github.com/maksuranuha) — co-author and canonical repository maintainer
+
+No standalone software license is declared in the upstream repository. Contact the maintainers before redistributing the notebooks outside GitHub's fork network or incorporating them into another software package.
